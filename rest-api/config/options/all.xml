@@ -27,6 +27,37 @@
     <joiner strength="50" apply="constraint" compare="GE" tokenize="word">GE</joiner>
     <joiner strength="50" apply="constraint" compare="NE" tokenize="word">NE</joiner>
   </grammar>
+  <constraint name="type">
+    <annotation>Type</annotation>
+    <collection facet="true">
+      <facet-option>frequency-order</facet-option>
+      <facet-option>descending</facet-option>
+      <facet-option>limit=20</facet-option>
+    </collection>
+  </constraint>
+  <constraint name="name">
+    <annotation>Name</annotation>
+    <range type="string" collation="http://marklogic.com/collation/en/S1" facet="true">
+      <json-property>name</json-property>
+      <facet-option>frequency-order</facet-option>
+      <facet-option>descending</facet-option>
+      <facet-option>limit=20</facet-option>
+    </range>
+  </constraint>
+  <constraint name="country">   
+    <annotation>Country</annotation> 
+    <range type="string" collation="http://marklogic.com/collation/en/S1" facet="true">
+      <json-property>countries</json-property>
+      <facet-option>frequency-order</facet-option>
+      <facet-option>descending</facet-option>
+      <facet-option>limit=20</facet-option>
+    </range>
+  </constraint>  
+  <!--<constraint name="source">    
+    <range type="string" collation="http://marklogic.com/collation/en/S1" facet="true">
+      <json-property>sourceID</json-property>
+    </range>
+  </constraint>-->
   <sort-order direction="descending">
     <score/>
   </sort-order>
