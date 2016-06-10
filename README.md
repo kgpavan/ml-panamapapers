@@ -31,6 +31,10 @@ The following are queries that can provide some useful insight into the dataset.
 Count properties(predicates) in dataset
 ```
 ## Count properties(predicates) in dataset
+PREFIX pp: <http://panamapapers.icij.org/>
+PREFIX pprel: <http://panamapapers.icij.org/rel/>
+PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>
+
 SELECT ?p (COUNT(?p) as ?count)
 WHERE {
   ?s ?p ?o
@@ -44,6 +48,7 @@ Get a list of types of entities and their count
 ```
 ## Count Entities by Type
 PREFIX pp: <http://panamapapers.icij.org/>
+PREFIX pprel: <http://panamapapers.icij.org/rel/>
 PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?o (COUNT(?o) as ?type)
@@ -56,12 +61,13 @@ Select the top countries where entities do business
 ```
 #Top Countries group descending
 PREFIX pp: <http://panamapapers.icij.org/>
+PREFIX pprel: <http://panamapapers.icij.org/rel/>
 PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?ftype ?country (count(?ftype) as ?count) 
 WHERE {
   ?from rdf:type ?ftype .
-  ?from (<registeredAddress>|<sameAsAddress>) ?to . 
+  ?from (pprel:registeredAddress|pprel:sameAsAddress) ?to . 
   ?to rdf:type ?ttype FILTER(?ttype = pp:Address) .
   ?to pp:countries ?country
 }

@@ -9,14 +9,17 @@ declare variable $RDFS-PREFIX := "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare function transform:camelize(
 $string) {
   fn:string-join(
-  	for $t at $pos in fn:tokenize($string,"[\s\-_]")
+  	for $t at $pos in fn:tokenize($string,"[\s\-_\.]")
   	return 
-  	  fn:concat(
-  	  	if($pos gt 1) 
-  	  	then fn:upper-case(fn:substring($t,1,1))
-  	  	else fn:lower-case(fn:substring($t,1,1)),
-  	  	fn:lower-case(fn:substring($t,2))
-  	  ),"")
+  	  fn:replace(
+  	  	fn:concat(
+	  	  	if($pos gt 1) 
+	  	  	then fn:upper-case(fn:substring($t,1,1))
+	  	  	else fn:lower-case(fn:substring($t,1,1)),
+	  	  	fn:lower-case(fn:substring($t,2))
+	  	  ),
+  	  "[^\i\c]","")
+  ,"")
 };
 (:
   Convert Edges to Semantic Triples
@@ -26,7 +29,8 @@ declare function transform:edge(
   $context
 ) {
 	  	object-node {
-		   "edge" : xdmp:to-json( sem:triple(
+		   "edge" : xdmp:to-json(
+		    sem:triple(
 		       sem:iri($IRI-PREFIX || $content/node_1),
 		       sem:iri($IRI-PREFIX || "rel/" || transform:camelize($content/rel_type)),
 		       sem:iri($IRI-PREFIX || $content/node_2)
